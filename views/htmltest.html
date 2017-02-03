@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Better Class Viewer</title>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <!-- Compiled and minified CSS -->
+  <script type="text/javascript">
+    var subjects=['ACCT','ADMJ','ANTH','ARTS','ASTR','AUTO','BIOL','BUS','C D','CHEM','CIS','CLP','COUN','DANC','DMT','E S','ECON','EDUC','ELIT','ENGR','ESCI','ESL','EWRT','F/TV','FREN','GEO','GEOL','GERM','GUID','HIST','HLTH','HNDI','HTEC','HUMA','HUMI','ICS','INTL','ITAL','JAPN','JOUR','KNES','KORE','LIB','LING','LRNA','MAND','MASG','MATH','MET','MUSI','NURS','NUTR','P E','PARA','PEA','PERS','PHIL','PHTG','PHYS','POLI','PSYC','READ','REST','RUSS','SIGN','SKIL','SOC','SOSC','SPAN','SPCH','SPED','THEA','VIET','WMST']
+
+    function findSuffix(str, dict){
+      data = []
+        for(i in dict){
+          if(dict[i].substring(0,str.length)==str){
+            data.push(dict[i])
+          }
+        }
+        return data
+    }
+
+    $(document).ready(function() {
+    $('#subject_input').keyup(function(e) {
+      if(e.which>=65 && e.which<=90 || e.which==32 || e.which==8){
+        str = this.value.toUpperCase()
+        res = findSuffix(str, subjects)
+      }
+    })
+
+    $('#course_input').keyup(function(e){
+      str = this.value.toUpperCase()
+      subject = $('#subject_input').val().toUpperCase()
+      //console.log(subject, str)
+      $.ajax({
+              type: "GET",
+              url: "/course",
+              data: {"sub": subject,
+          			 "course": str}
+              }).done(function(msg) {
+                        console.log(msg)
+                    });
+    })
+
+  });
+  </script>
+</head>
+
+<body>
+  <input id="subject_input" type="text" name="a">
+  <input id="course_input" type="text" name="b">
+</body>
+</html>
