@@ -3,6 +3,7 @@ package controllers
 import (
 	"BetterClassViewer/models"
 	"encoding/json"
+	"fmt"
 	"github.com/astaxie/beego"
 	"strings"
 )
@@ -25,21 +26,22 @@ func (c *MainController) GetCourse() {
 	c.ServeJSON()
 }
 
-// @route /subject [get]
+// @router /subjects [get]
 func (c *MainController) GetSubject() {
 	res := strings.Join(models.Sub_name, "|")
 	c.Data["json"] = res
 	c.ServeJSON()
 }
 
-// @route /class [get]
+// @router /class [get]
 func (c *MainController) GetClass() {
 	sub := c.GetString("subject")
 	crse := c.GetString("course")
+	fmt.Println(sub, crse)
 	inds := models.GetClass(sub, crse)
 	var tmp_s []string
 	for i := range inds {
-		tmp, _ := json.Marshal(models.Class[i])
+		tmp, _ := json.Marshal(models.Class[inds[i]])
 		tmp_s = append(tmp_s, string(tmp))
 	}
 	res := strings.Join(tmp_s, "|")

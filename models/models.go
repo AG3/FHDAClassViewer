@@ -43,8 +43,6 @@ func init() {
 	for k := range subject {
 		Sub_name = append(Sub_name, k)
 	}
-	//QueryClass("MATH", "D001A")
-	//fmt.Println("Query Completed")
 }
 
 func UpdateData() {
@@ -61,20 +59,21 @@ func UpdateData() {
 		ind, ok := subject[sub]
 
 		if ok == false {
-			subject[sub] = tot_p
-			nodes[tot_p].Name2Int = make(map[string]int)
 			ind = tot_p
+			subject[sub] = ind
+			nodes[ind].Name2Int = make(map[string]int)
 			tot_p++
 		}
 
 		crse := Class[i].Course
 		ind_c, ok := nodes[ind].Name2Int[crse]
 		if ok == false {
-			nodes[ind].Name2Int[crse] = tot_p
-			nodes[tot_p].Name2Int = make(map[string]int)
 			ind_c = tot_p
+			nodes[ind_c].Name2Int = make(map[string]int)
+			nodes[ind].Name2Int[crse] = ind_c
 			tot_p++
 		}
+		//fmt.Printf("add rec %d to %d\n", int(i), ind_c)
 		nodes[ind_c].Children = append(nodes[ind_c].Children, int(i))
 	}
 }
@@ -88,6 +87,7 @@ func GetClass(sub string, crse string) []int {
 func GetCourse(sub string) []string {
 	res := make([]string, 0, len(nodes[subject[sub]].Name2Int))
 	for e := range nodes[subject[sub]].Name2Int {
+		//fmt.Println(e)
 		res = append(res, e)
 	}
 	return res
