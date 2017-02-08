@@ -3,7 +3,7 @@ package controllers
 import (
 	"BetterClassViewer/models"
 	"encoding/json"
-	"fmt"
+	//"fmt"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/logs"
 	"strings"
@@ -15,15 +15,18 @@ type MainController struct {
 
 // @router / [get]
 func (c *MainController) Get() {
-	fmt.Print(c.Ctx.Request.RemoteAddr)
-	beego.Notice("Mainpage viewed")
+	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
+	ip := rawip[0]
+	beego.Notice("From: %v, Mainpage viewed", ip)
 	c.TplName = "index.html"
 }
 
 // @router /course [get]
 func (c *MainController) GetCourse() {
-	beego.Notice("Search requested")
+	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
+	ip := rawip[0]
 	sub := c.GetString("subject")
+	beego.Notice("From: %v, Search %v", ip, sub)
 	tmp := models.GetCourse(sub)
 	res := strings.Join(tmp, "|")
 	c.Data["json"] = res
@@ -39,9 +42,11 @@ func (c *MainController) GetSubject() {
 
 // @router /class [get]
 func (c *MainController) GetClass() {
+	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
+	ip := rawip[0]
 	sub := c.GetString("subject")
 	crse := c.GetString("course")
-	//fmt.Println(sub, crse)
+	beego.Notice("From: %v, Search %v %v", ip, sub, crse)
 	inds := models.GetClass(sub, crse)
 	var tmp_s []string
 	for i := range inds {
@@ -67,7 +72,7 @@ func (c *MainController) UpdateDatas() {
 
 func init() {
 	beego.SetLogger(logs.AdapterSlack, `{"webhookurl":"https://hooks.slack.com/services/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"}`)
-	beego.SetLogger(logs.AdapterFile, `{"filename":"/logs/log1.txt"}`)
+	beego.SetLogger(logs.AdapterFile, `{"filename":"./logs/log1.txt"}`)
 	beego.SetLevel(logs.LevelNotice)
 	beego.SetLogFuncCall(false)
 }
