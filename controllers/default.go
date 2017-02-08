@@ -17,7 +17,7 @@ type MainController struct {
 func (c *MainController) Get() {
 	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
 	ip := rawip[0]
-	beego.Notice("From: ", ip, ", Mainpage viewed")
+	beego.Notice("From: ", ip, ", Visit")
 	c.TplName = "index.html"
 }
 
@@ -26,7 +26,7 @@ func (c *MainController) GetCourse() {
 	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
 	ip := rawip[0]
 	sub := c.GetString("subject")
-	beego.Notice("From: ", ip, ", Search ", sub)
+	beego.Notice("From: ", ip, ", Request", sub)
 	tmp := models.GetCourse(sub)
 	res := strings.Join(tmp, "|")
 	c.Data["json"] = res
@@ -46,7 +46,7 @@ func (c *MainController) GetClass() {
 	ip := rawip[0]
 	sub := c.GetString("subject")
 	crse := c.GetString("course")
-	beego.Notice("From: ", ip, ", Search ", sub, crse)
+	beego.Notice("From: ", ip, ", Request", sub, crse)
 	inds := models.GetClass(sub, crse)
 	var tmp_s []string
 	for i := range inds {
