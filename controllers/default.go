@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 	"strings"
 )
 
@@ -14,11 +15,14 @@ type MainController struct {
 
 // @router / [get]
 func (c *MainController) Get() {
-	c.TplName = "htmltest.html"
+	fmt.Print(c.Ctx.Request.RemoteAddr)
+	beego.Notice("Mainpage viewed")
+	c.TplName = "index.html"
 }
 
 // @router /course [get]
 func (c *MainController) GetCourse() {
+	beego.Notice("Search requested")
 	sub := c.GetString("subject")
 	tmp := models.GetCourse(sub)
 	res := strings.Join(tmp, "|")
@@ -37,7 +41,7 @@ func (c *MainController) GetSubject() {
 func (c *MainController) GetClass() {
 	sub := c.GetString("subject")
 	crse := c.GetString("course")
-	fmt.Println(sub, crse)
+	//fmt.Println(sub, crse)
 	inds := models.GetClass(sub, crse)
 	var tmp_s []string
 	for i := range inds {
@@ -59,4 +63,11 @@ func (c *MainController) UpdateDatas() {
 		c.Data["json"] = "Failed"
 	}
 	c.ServeJSON()
+}
+
+func init() {
+	beego.SetLogger(logs.AdapterSlack, `{"webhookurl":"https://hooks.slack.com/services/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"}`)
+	beego.SetLogger(logs.AdapterFile, `{"filename":"/logs/log1.txt"}`)
+	beego.SetLevel(logs.LevelNotice)
+	beego.SetLogFuncCall(false)
 }

@@ -2,33 +2,54 @@
 <html>
 <head>
   <title>Better Class Viewer</title>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-  <!-- Compiled and minified CSS -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/css/materialize.min.css">
-
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.0/js/materialize.min.js"></script>
-  <script type="text/javascript" src="static/js/betterviewer.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="/static/js/betterviewer.js"></script>
+  <script type="text/javascript" src="/static/js/materialize.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="/static/css/materialize.min.css">
 </head>
 
 <body>
-  <div class="container">
-<form class="col s12">
-<div class="row">
-    <select class="col s6">
-      <option value="" disabled selected>Choose your option</option>
-      <option value="1">Option 1</option>
-      <option value="2">Option 2</option>
-      <option value="3">Option 3</option>
-    </select>
-    <select class="col s6">
-      <option value="" disabled selected>Choose your option</option>
-      <option value="1">Option 1</option>
-      <option value="2">Option 2</option>
-      <option value="3">Option 3</option>
-    </select>
+<nav>
+    <div class="nav-wrapper">
+      <a class="brand-logo center">Better Class Viewer</a>
     </div>
-    </form>
+  </nav>
+  
+<div class="container">
+  <div class="row">
+
+    <div class="input-field col s5">
+      <input id="subject_input" class="dropdown-button" data-beloworigin="true" data-activates='sub_drp' placeholder="Subject" autocomplete="off"/>
+      <ul id='sub_drp' class='dropdown-content'></ul>
+    </div>
+
+    <div class="input-field col s5">
+      <input id="course_input" class="dropdown-button" data-beloworigin="true" data-activates='crse_drp' placeholder="Course" autocomplete="off"/>
+      <ul id='crse_drp' class='dropdown-content'></ul>
+    </div>
+
   </div>
+  <table id="details" class="bordered hightlight" style="table-layout: fixed;">
+  <thead>
+    <tr>
+      <th>CRN</th>
+      <th>Section</th>
+      <th>Credit</th>
+      <th>Title</th>
+      <th>Days</th>
+      <th>Start Time</th>
+      <th>End Time</th>
+      <th>Instructor</th>
+      <th>Start Date</th>
+      <th>End Date</th>
+      <th>Location</th>
+      <th>Online Content</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
+</div>
+
 </body>
 </html>

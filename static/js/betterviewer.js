@@ -7,17 +7,24 @@ var stat_crse = false
 function buildRow(obj){
     raw_row = '<tr><td>'+
     obj['crn']+'</td><td>'+
-    obj['subject']+'</td><td>'+
-    obj['course']+'</td><td>'+
     obj['section']+'</td><td>'+
     obj['credit']+'</td><td>'+
     obj['title']+'</td><td>'+
     obj['days']+'</td><td>'+
     obj['start_time']+'</td><td>'+
     obj['end_time']+'</td><td>'+
-    obj['location']+'</td><td>'+
-    '</tr>'
-    $('#details').append(raw_row)
+    obj['instructor']+'</td><td>'+
+    obj['start_date']+'</td><td>'+
+    obj['end_date']+'</td><td>'+
+    obj['location']+'</td><td>'
+    if(obj['online_content']=='1'){
+        raw_row+='Yes'
+    }else{
+        raw_row+='No'
+    }
+    raw_row+='</td></tr>'
+
+    $('tbody').append(raw_row)
 }
 
 function requestClass(sub, crse){
@@ -30,9 +37,7 @@ function requestClass(sub, crse){
         }
     }).done(function(msg){
         classes = msg.split('|')
-        console.log(msg)
         for (i in classes){
-            console.log(classes[2])
             buildRow(JSON.parse(classes[i]))
         }
     })
@@ -43,14 +48,16 @@ function setText(e, tar){
         $('#subject_input').val(e.text)
         $('#course_input').val('')
         validateSub()
+        if(stat_sub){
+            $('tbody').empty()
+        }
         return
     }
     $('#course_input').val(e.text)
     validateCrse()
 
-    console.log(stat_sub, stat_crse)
     if(stat_sub && stat_crse){
-        $('#details').empty()
+        $('tbody').empty()
         requestClass($('#subject_input').val(),$('#course_input').val())
     }
 }
