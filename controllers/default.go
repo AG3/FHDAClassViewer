@@ -17,7 +17,7 @@ type MainController struct {
 func (c *MainController) Get() {
 	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
 	ip := rawip[0]
-	beego.Notice("From: %v, Mainpage viewed", ip)
+	beego.Notice("From: ", ip, ", Mainpage viewed")
 	c.TplName = "index.html"
 }
 
@@ -26,7 +26,7 @@ func (c *MainController) GetCourse() {
 	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
 	ip := rawip[0]
 	sub := c.GetString("subject")
-	beego.Notice("From: %v, Search %v", ip, sub)
+	beego.Notice("From: ", ip, ", Search ", sub)
 	tmp := models.GetCourse(sub)
 	res := strings.Join(tmp, "|")
 	c.Data["json"] = res
@@ -46,7 +46,7 @@ func (c *MainController) GetClass() {
 	ip := rawip[0]
 	sub := c.GetString("subject")
 	crse := c.GetString("course")
-	beego.Notice("From: %v, Search %v %v", ip, sub, crse)
+	beego.Notice("From: ", ip, ", Search ", sub, crse)
 	inds := models.GetClass(sub, crse)
 	var tmp_s []string
 	for i := range inds {
@@ -72,7 +72,7 @@ func (c *MainController) UpdateDatas() {
 
 func init() {
 	beego.SetLogger(logs.AdapterSlack, `{"webhookurl":"https://hooks.slack.com/services/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"}`)
-	beego.SetLogger(logs.AdapterFile, `{"filename":"./logs/log1.txt"}`)
+	beego.SetLogger(logs.AdapterFile, `{"filename":"./logs/log.txt"}`)
 	beego.SetLevel(logs.LevelNotice)
 	beego.SetLogFuncCall(false)
 }
