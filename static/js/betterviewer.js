@@ -4,27 +4,29 @@ var course_dict = []
 var stat_sub = false
 var stat_crse = false
 
+var curTable = []
+var curSize = 0
+
+//---------------------------------
+
 function buildRow(obj){
-    raw_row = '<tr><td>'+
-    obj['crn']+'</td><td>'+
-    obj['section']+'</td><td>'+
-    obj['credit']+'</td><td>'+
+    raw_row = '<tr class="active" onclick="addClassToView('+curSize+')"><td>'+
     obj['title']+'</td><td>'+
     obj['days']+'</td><td>'+
     obj['start_time']+'</td><td>'+
     obj['end_time']+'</td><td>'+
-    obj['instructor']+'</td><td>'+
-    obj['start_date']+'</td><td>'+
-    obj['end_date']+'</td><td>'+
-    obj['location']+'</td><td>'
+    obj['instructor']+'</td><td>'
     if(obj['online_content']=='1'){
         raw_row+='Yes'
     }else{
         raw_row+='No'
     }
     raw_row+='</td></tr>'
+    curSize++
+    curTable.push(obj)
 
     $('tbody').append(raw_row)
+    //AddClass(obj)
 }
 
 function requestClass(sub, crse){
@@ -44,22 +46,27 @@ function requestClass(sub, crse){
 }
 
 function setText(e, tar){
+    $('tbody').empty()
     if(tar == 'sub'){
         $('#subject_input').val(e.text)
         $('#course_input').val('')
         validateSub()
-        if(stat_sub){
-            $('tbody').empty()
-        }
         return
     }
     $('#course_input').val(e.text)
     validateCrse()
 
     if(stat_sub && stat_crse){
-        $('tbody').empty()
+        ClassEleSet.remove()
         requestClass($('#subject_input').val(),$('#course_input').val())
+        curTable=[]
+        curSize=0
     }
+}
+
+function addClassToView(ind){
+    console.log(ind)
+    AddClass(curTable[parseInt(ind)])
 }
 
 function validateSub(){
@@ -93,6 +100,10 @@ function validateCrse(){
 }
 
 $(document).ready(function() {
+    
+    //$('.modal-trigger').leanModal()
+    $('#modal1').modal()
+    //Init()
     $.ajax({
         type: "GET",
         url: "/subjects",
@@ -142,4 +153,13 @@ $(document).ready(function() {
         $('#crse_drp li').show()
         $('#crse_drp li:not(:contains("'+str+'"))').hide()
     })
+    f = false
+    $('#modalTrigger').click(function(){
+        $('#modal1').modal('open')
+        if(!f){
+            Init()
+            f=true
+        }
+    })
+
 })

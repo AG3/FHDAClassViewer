@@ -2,22 +2,26 @@
 <html>
 <head>
   <title>Better Class Viewer</title>
-  <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <script type="text/javascript" src="/static/js/jquery-3.1.1.min.js"></script>
+  <script type="text/javascript" src="/static/js/snap.svg-min.js"></script>
+  <script type="text/javascript" src="/static/js/svgDrawer.js"></script>
   <script type="text/javascript" src="/static/js/betterviewer.js"></script>
   <script type="text/javascript" src="/static/js/materialize.min.js"></script>
   <link rel="stylesheet" type="text/css" href="/static/css/materialize.min.css">
+  <link rel="stylesheet" type="text/css" href="/static/css/betterviewer.css">
 </head>
 
 <body>
 <nav>
-    <div class="nav-wrapper">
-      <a class="brand-logo center">Better Class Viewer</a>
-    </div>
-  </nav>
+  <div class="nav-wrapper">
+    <a class="brand-logo center">Better Class Viewer</a>
+  </div>
+</nav>
   
 <div class="container">
+  
   <div class="row">
-
     <div class="input-field col s5">
       <input id="subject_input" class="dropdown-button" data-beloworigin="true" data-activates='sub_drp' placeholder="Subject" autocomplete="off"/>
       <ul id='sub_drp' class='dropdown-content'></ul>
@@ -27,29 +31,34 @@
       <input id="course_input" class="dropdown-button" data-beloworigin="true" data-activates='crse_drp' placeholder="Course" autocomplete="off"/>
       <ul id='crse_drp' class='dropdown-content'></ul>
     </div>
-
   </div>
+  
   <table id="details" class="bordered hightlight" style="table-layout: fixed;">
   <thead>
     <tr>
-      <th>CRN</th>
-      <th>Section</th>
-      <th>Credit</th>
       <th>Title</th>
       <th>Days</th>
       <th>Start Time</th>
       <th>End Time</th>
       <th>Instructor</th>
-      <th>Start Date</th>
-      <th>End Date</th>
-      <th>Location</th>
       <th>Online Content</th>
     </tr>
     </thead>
     <tbody>
     </tbody>
   </table>
-</div>
+  <div id="modalTrigger" class="fixed-action-btn">
+    <a class="btn-floating btn-large waves-effect waves-light red">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
 
+  <div id="modal1" class="modal bottom-sheet">
+    <div class="modal-content" style="height: 80vh">
+        <svg style="height: 100%;width: 100%;"></svg>
+    </div>
+  </div>
+
+</div>
 </body>
 </html>

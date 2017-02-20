@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	//"fmt"
 	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/logs"
+	//"github.com/astaxie/beego/logs"
 	"strings"
 )
 
@@ -15,18 +15,19 @@ type MainController struct {
 
 // @router / [get]
 func (c *MainController) Get() {
-	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
-	ip := rawip[0]
-	beego.Notice("From:", ip, ", Visit")
+	//rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
+	//ip := rawip[0]
+	//beego.Notice("From:", ip, ", Visit")
 	c.TplName = "index.html"
 }
 
 // @router /course [get]
 func (c *MainController) GetCourse() {
-	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
+	/*rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
 	ip := rawip[0]
+
+	beego.Notice("From:", ip, ", Request", sub)*/
 	sub := c.GetString("subject")
-	beego.Notice("From:", ip, ", Request", sub)
 	tmp := models.GetCourse(sub)
 	res := strings.Join(tmp, "|")
 	c.Data["json"] = res
@@ -42,11 +43,12 @@ func (c *MainController) GetSubject() {
 
 // @router /class [get]
 func (c *MainController) GetClass() {
-	rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
+	/*rawip := strings.Split(c.Ctx.Request.RemoteAddr, ":")
 	ip := rawip[0]
+
+	beego.Notice("From:", ip, ", Request", sub, crse)*/
 	sub := c.GetString("subject")
 	crse := c.GetString("course")
-	beego.Notice("From:", ip, ", Request", sub, crse)
 	inds := models.GetClass(sub, crse)
 	var tmp_s []string
 	for i := range inds {
@@ -68,11 +70,4 @@ func (c *MainController) UpdateDatas() {
 		c.Data["json"] = "Failed"
 	}
 	c.ServeJSON()
-}
-
-func init() {
-	beego.SetLogger(logs.AdapterSlack, `{"webhookurl":"https://hooks.slack.com/services/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"}`)
-	beego.SetLogger(logs.AdapterFile, `{"filename":"./logs/log.txt"}`)
-	beego.SetLevel(logs.LevelNotice)
-	beego.SetLogFuncCall(false)
 }
